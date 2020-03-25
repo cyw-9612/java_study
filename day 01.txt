@@ -1,0 +1,130 @@
+day 01
+
+1.Windows 常用DOS操作命令
+	*DOS命令在DOS命令窗口使用
+	*开始菜单》命令》cmd
+	*常见的DOS命令：
+		-exit 	推出窗口
+		-cls 	清除内容
+		-选中右键就以复制到粘贴板、
+		-dir 	查看当前目录下的文件
+		-cd *** 进入选项*** 【change direct】
+			cd进入的路径分为绝对路径和相对路劲
+			绝对路劲：指从某个盘符作为出发点 例 C:\Users\yu
+			相对路径：指从当前路径作为从出发点
+		-cd.. 回到上级目录
+		-cd \ 回到根目录
+		-c: / d: / e: 等等直接到cde盘
+		-dl *文件名 删除相应后缀的文件
+
+2.JAVA的加载与执行
+	*JAVA程序包含两个重要阶段
+		-编译阶段
+		-执行阶段
+	*编译阶段
+		-编译阶段主要检查源程序是否符合Java语法。
+		符合要求的会生成 .class文件
+		不符合的无法生成
+
+		-字节码文件不是纯二进制，无法直接运行
+
+		-编译的过程：
+			*在某个任意位置新建.java扩展文件
+			该文件称为源程序，编写的 是符合规则的源代码
+
+			*java需要使用JDK自带的javac.exe命令进行编译
+				-在DOS窗口使用
+				-javac是一个JAVA编译器工具
+
+			*一个源文件可以生成多个 .class 文件
+
+			*字节码文件/class文件是最终执行文件，这时 .java文件就无用了，打建议不删除。用作后续修改。
+
+			*编译结束后可以将 .class 文件拷贝到其他系统使用
+
+	*运行阶段
+
+		-JDK安装后，除了javac.exe 外还有一个工具：java.exe ，其主要负责运行阶段
+
+		-java.exe运用于DOS窗口
+			-使用规则
+				java 类名
+				例：
+				有一个A.cla   执行 java A
+				有一个B.cla   执行 java B
+				注意：不要写成 java A.class
+
+		-运行阶段的过程：
+			*打开DOS窗口
+			*输入：java A
+			*java.exe命令会启动Java虚拟机（JVM）
+			*ClassLoader会去硬盘搜索A.class 文件，找到后将该字节码文件装载到JVM中
+			*Jvm将A.class 字节码文件解释成二进制文件
+			*操作系统执行二进制文件并于底层硬件平台进行交互
+
+3 开始一个JAVA程序
+	*安装JDK  【JDK,JRE,JVM的关系】
+	*开发HelloWorld,java源程序
+	*将源文件进行编译
+		-确保javac命令可执行
+		-直接打开DOS窗口javac无法直接执行
+			如何解决：理解Windows操作系统如何搜索执行命令：
+			*首先从当前目录搜索
+			*再从环境变量path指定目录进行搜索
+			*未找到就会报错
+			*解决办法再windows环境变量path中加入java.exe的执行目录【一般到xx\xx\xx\bin位置】
+			*此时打开DOS窗口就可以直接执行javac命令
+		-javac命令的使用：
+			java java源文件的路劲
+			PS：路径包括相对路径与绝对路径，都可以使用。
+	*运行java程序：
+		-首先确保java命令可使用
+		-使用方式：
+			java 类名
+		-首先必须将目录切换成.class 目录
+		-然后执行java命令
+
+4 注释的相关说明
+	*注释的作用：
+		-在源程序中对代码进行解释说明
+		-注释不会被编译
+		-好的开发注释习惯可以增加程序可读性
+
+	*注释的写法：
+		-单行注释
+			//只注释当前行
+		-多行注释
+			/*
+				内容
+				日荣
+			*/
+		-javadoc注释
+			/**
+			* javadoc注释
+			* javadoc注释
+			* javadoc注释
+			* javadoc注释
+			*/
+			 此类注释可以被javadoc.exe工具提取生成注释文档
+
+5 对HelloWorld进行注释
+	*publec
+	*class
+	*static
+	*void
+	*System.out.println("");
+	*类体
+	*方法体
+	*类体不进行语句编写，可以声明变量
+	*每个java语句必须以":"结尾
+	*主方法是程序的入口，SUN规定
+
+6 public class 和 class的区别
+	*一个java文件中可以定义多个class
+	*一个java源文件中不一定有public calss
+	*一个class会生成对应的xxx.class 字节码文件
+	*一个java源文件中只能定义一个公开类，且该类的名称要与源文件名称一致
+	*每个class中都可以编写main方法，可以单独执行，但是要单独执行类中必须要有主方法入口
+		-主方法定义为：public static void main(String[] args) 
+
+			
