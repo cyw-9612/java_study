@@ -1,0 +1,419 @@
+SQL基础恶补
+	
+1.什么是SQL
+	*SQL是指结构化查询语言
+	*SQL是程序员访问数据库的手段
+	*SQL是ANSL的标准计算机语言
+
+2.SQL的作用
+	*SQL是面向数据库执行查询
+	*SQL可以从数据库中取回数据
+	*SQL可以在数据库中插入新的记录
+	*SQL可以更新在数据中数据
+	*SQL可以从数据库删除记录
+	*SQL可以创建新的数据库
+	*SQL可以在数据库中创建新表
+	*SQL可以在数据库中创建存储过程
+	*SQL可以在数据库中创建视图
+	*SQL可以设置表，存储过程，创建视图的权限
+
+3.SQL是一种标准
+	*SQL是一门ANSI的标准计算机语言，用来访问和操作数据库系统。
+
+4.建立私有网站并使用SQL
+	*RDBMS数据库程序（MS Access, SQL Server, MySQL）
+	*服务器端脚本语言（PHP）
+	*SQL
+	*CSS或者HTML
+
+5.什么是RDBMS
+	*RDBMS指的是关系型数据库管理系统
+	*RDBMS是SQL的基础，也是所有现代数据库系统的基础。
+	*RDBMS中的数据存储在表（table）的数据库对象中
+	*表是相关数据项的集合，它由列和行组成
+
+6.SQL的语法规范
+	6.1 SQL不区分大小写
+	6.2 对于JAVA语句块结束的分号，根据服务器或是数据库软件的要求使
+		*注：SQL Server 2000，不必在每条 SQL 语句之后使用分号
+
+7. SQL DML和DDL
+	*SQL可以分为两个部分：数据操作语言（DML）和数据定义语言（DDL）
+		-SQL（结构化查询语言）是用于执行查询的语法。同时它也包含了更新，插入，删除记录达到语法。
+
+	*查询和更新指令构成了SQL的DML部分：
+		-SLECT 			从数据库表获得数据
+		-UPDATA			更新数据库表中的数据
+		-DELETE			从数据库表删除数据
+		-INSERT INTO	向数据库表中插入数据
+
+	*SQL的数据定义语言（DDL）能够创建和删除表格，程序员可以定义索引，规定表之间的链接，以施加表间的约束。
+		-CREATE DATABASE	创建新数据库
+		-ALTER DATABASE		修改数据库
+		-CREATE TABLE		创建新表
+		-ALTER TABLE		变更（改变）数据库表
+		-DROP TABLE			删除表
+		-CREATE INDEX		创造索引（搜索键）
+		-DROP INDEX			删除索引
+
+8.SQL SELECT 和 SELECT* 语句的使用
+	8.1 SQL SELECT	语句用于从表中选取数据
+		结果被储存在一个结果表中
+
+	8.2 SQL SELECT的语法规则
+		* SELECT 列名称 FROM 表名称
+		* SELECT * FROM 表名称
+		*SELECT实例：
+			例如：
+				如需从名为 "Persons" 的数据库表中获取名为 "LastName" 和 "FirstName" 的列的内容	
+				- SELECT LastName,FirstName FROM Persons
+		* SQL SELECT *实例：
+			例如：现在我们希望从 "Persons" 表中选取所有的列。就使用符号 * 取代列的名称
+			- SELECT * FROM Persons
+
+9. SQL SELECT 取得的结果集在（result-set）中
+	-由 SQL 查询程序获得的结果被存放在一个结果集中，数据库软件可以使用编程函数在结果集中进行导航。
+
+10. SQL SELECT DISTINCT 语句
+	-处理表中的重复值时，使用DISTINCT语句返回唯一不同值
+	
+	-语法要求：
+		SELECT DISTINCT 列名称 FROM 表名称
+
+	-使用实例就是驱除重复信息
+
+11. SQL WHERE 语句
+	- WHERE的作用是有条件的选取数据
+
+	-语法结构
+		SELECT 列表名 FROM 表名称 WHERE 列 运算符 值
+		*运算符可以使用：
+		=			等于
+		<>			不等于  //某些版本可以写成 !=
+		>			大于
+		<			小于
+		>=			大于等于
+		<=			小于等于
+		BETWEEN		在某个范围内
+		LIKE		搜索某种模式
+		
+	- WHERE 实例：
+		*假设要从“Persons”表中取出住在“北京”的人
+		SELECT * FROM Persons WHERE City = 'Beijing'
+
+		*注意：SQL 使用单引号来环绕文本值（大部分数据库系统也接受双引号）。如果是数值，请不要使用引号。
+
+12. AND 和 OR 运算符用于基于一个以上的条件对记录进行过滤
+	-结合WHERE语句对数据更好的筛选数据
+
+	-实例：
+		使用 AND 来显示所有姓为 "Carter" 并且名为 "Thomas" 的人：
+		SELECT * FROM Persons WHERE FirstName = 'Carter' AND LastName'Thomas'
+
+	-实例：
+		使用 OR 来显示所有姓为 "Carter" 或者名为 "Thomas" 的人：
+		SELECT * FROM Persons WHERE firstname='Thomas' OR lastname='Carter'
+
+13. SQL ORDER BY 子句
+	-ORDER BY语句用于对结果集进行排序
+
+	-ORDER BY语句默认按照升序对记录进行排序
+
+	-如果希望使用降序排序，可以使用DESC关键字
+
+	-实例：
+		SELECT Company, OrderNumber FROM Order ORDER BY Company
+		*显示Company, OrderNumber 以Company字母顺序排序	
+
+	-但序排列实例：
+		SELECT Company, OrderNumber FROM Orders ORDER BY Company DESC
+		*以逆字母顺序显示公司名称
+
+14. SQL INSERT INTO 语句
+	-INSERT INTO 语句用于向表格中插入新的行
+
+	-语法规范：
+		INSERT INTO 表名称 VALUES (值1，值2.。。。。)
+		*也可以在指定位置插入数据的列
+		INSERT INTO table_name VALUES (列1，列2.。。。。)
+
+	-实例：
+		INSERT INTO Persons VALUES ('Gates', 'Bill', 'Xuanwumen 10', 'Beijing')
+	
+	-注意：在多个表列插入数据时，表名加括号，逗号隔开
+
+15.SQL UPDATE 语句
+	-UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
+
+	-实例：
+		更新某一行中的一个列
+		我们为 lastname 是 "Wilson" 的人添加 firstname：
+		UPDATE Person SET FirstName = 'Fred' WHERE LastName = 'Wilson' 	
+
+	-实例：
+		更新某一行中的若干列
+		我们会修改地址（address），并添加城市名称（city）：
+		UPDATE Person SET Address = 'Zhongshan 23', City = 'Nanjing'
+		WHERE LastName = 'Wilson'
+		*PS：这里多个选项用,隔开
+
+16. SQL DELETE 语句
+	-SQL DELETE 语句用于删除表中的行
+
+	-语法要求：
+		DELETE FROM 表名称 WHERE 列名称 = 值
+
+	-实例：
+		*删除FirstName等于Fred这一行
+		DELETE FROM Person WHERE FirstName = 'Fred' 
+
+	-删除所有行的操作：
+		DELETE FROM table_name
+		DELETE * FROM table_name
+		*这样的删除方式可以在不删除表的情况下删除所有行，并保留表的结构
+
+17. SQL IN 操作符
+	-IN 操作符允许程序员在WHERE语句中规定多个值
+
+	-语法结构：
+		SELECT column_name(s) FROM table_name WHERE column_name IN (value1,value2,...)
+		*理解 当IN的数据只有两个达到时候等同使用= AND =
+
+18. CREATE DATABASE 
+	-CREATE DATABASE 用于创建数据库
+
+	-语法结构：
+		CREATE DATABASE database_name
+
+19. CREATE TABLE
+	-CREATE TABLE语句用于创建数据库中的表
+
+	-语法结构：
+		CREATE TABLE 表名称
+		(
+		列名称1 数据类型，
+		列名称2 数据类型，
+		列名称3 数据类型，
+		。。。。。
+		)		 
+
+	-数据类型（data_type）规定了列可容纳何种数据类型
+
+	-常用SQL数据类型：
+		integer(size)		仅仅容纳整数，括号里定义最大位数
+		int(size)
+		smallint(size)
+		tinyint(size)	
+
+		decimal(size,d)		仅仅容纳带小数的数字
+		numeric(size,d)		“size”规定数字的最多打位数，“d”	规定小数点右侧最大位数
+
+		char(size)			容纳固定长度的字符串,size为字符串长度	
+
+		varchar(size)		容纳可变长度的字符串,size为字符串长度
+
+		date(yyyymmdd)		容纳日期
+
+		-实例：
+			建立一个Persons表，里面由5列，分别为"Id_P"、"LastName"、"FirstName"、"Address" 以及 "City"：
+
+			CREATE TABLE Persons
+			(
+			Id_p VarChar(32),
+			FirstNme VarChar(32),
+			LastName VarCHar(32),
+			Address VarChar(32),
+			city VarChar(32)
+			)	 
+
+20.SQL NOT NULL的约束
+	-NOT NULL约束强制列不接受NULL值
+
+	-NOT NULL约束强制字段始终包含值。
+	因此如果不向该字段输入值则无法更新或插入记录
+
+	-实例：
+		 *SQL 语句强制 "Id_P" 列和 "LastName" 列不接受 NULL 值：
+		 CREATE TABLE Persons
+			(
+			Id_p int NOT NULL,
+			FirstNme VarChar(32) NOT NULL,
+			LastName VarCHar(32),
+			Address VarChar(32),
+			city VarChar(32)
+			)	
+
+21 SQL UNIQUE 约束
+	- UNIQUE 约束唯一标识数据库中的每条记录
+
+	-UNIQUE 和PRIMARY KEY 约束均为列或列合集日供了唯一性的保证
+
+	-PRIMARY KEY 拥有自动定义的 UNIQUE 约束	
+
+	-实例：
+		*在Persons表建立的时候给"Id_P" 列创建 UNIQUE 约束
+		CREATE TABLE Persons
+			(
+			Id_p int NOT NULL,
+			FirstNme VarChar(32) NOT NULL,
+			LastName VarCHar(32),
+			Address VarChar(32),
+			city VarChar(32)，
+			UNIQUE(Id_P)
+			)	
+
+		或者：
+		CREATE TABLE Persons
+			(
+			Id_p int NOT NULL UNIQUE,
+			FirstNme VarChar(32) NOT NULL,
+			LastName VarCHar(32),
+			Address VarChar(32),
+			city VarChar(32)
+			)
+
+22. SQL PRIMARY KEY 约束
+	-PRIMARY KEY约束唯一标识数据库表中的每条记录
+
+	-主键必须包含唯一值
+
+	-主键不能为NULL
+
+	-内个表都应该有且只有一个主键
+
+	-语法结构实例：
+		*在SQL创建"Persons"表的时候，在"Id_P"列表创建PRIMARY KEY 约束
+		CREATE TABLE Persons
+			(
+			Id_p int NOT NULL,
+			FirstNme VarChar(32) NOT NULL,
+			LastName VarCHar(32),
+			Address VarChar(32),
+			city VarChar(32)，
+			PRIMARY KEY (Id_P)
+			)
+		或者：
+		CREATE TABLE Persons
+			(
+			Id_p int NOT NULL PRIMARY KEY,
+			FirstNme VarChar(32) NOT NULL,
+			LastName VarCHar(32),
+			Address VarChar(32),
+			city VarChar(32)
+			)
+
+23. SQL FOREIGN KEY 约束
+	-一个表中的	FOREIGN KEY 用以指向另一个表的 PRIMARY KEY
+
+	-FOREIGN KEY的约束旨在预防破坏表之间连接的动作
+
+	-实例：
+		*在SQL建立“Order”表的时候为“Id_P”创建POREIGN KEY约束指向Persons的Id_P
+		CREATE TABLE ORDER
+		(
+		Id_P int NOT NULL,
+		OrderNo int NOT NULL,
+		Id_p int,
+		PRIMARY KEY (Id_P),
+		FOREIGN KEY (Id_P) REFERENCES Persons (Id_P)
+		)
+		或者：
+		CREATE TABLE ORDER
+		(
+		Id_P int NOT NULL,
+		OrderNo int NOT NULL,
+		Id_p int PRIMARY KEY REFERENCES Persons (Id_P)
+		)
+
+	-撤销的相关操作都是使用DROP
+
+24.实例操作：
+mysql> CREATE TABLE `websites` (
+    ->   `id` int(11) NOT NULL AUTO_INCREMENT,
+    ->   `name` char(20) NOT NULL DEFAULT '' COMMENT '站点名称',
+    ->   `url` varchar(255) NOT NULL DEFAULT '',
+    ->   `alexa` int(11) NOT NULL DEFAULT '0' COMMENT 'Alexa 排名',
+    ->   `country` char(10) NOT NULL DEFAULT '' COMMENT '国家',
+    ->   PRIMARY KEY (`id`)
+    -> ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO `websites` VALUES ('1', 'Google', 'https://www.google.cm/', '1', 'USA'), ('2', '淘宝', 'https://www.taobao.com/', '13', 'CN'), ('3', '菜鸟教程', 'http://www.runoob.com', '5892', ''), ('4', '微博', 'http://weibo.com/', '20', 'CN'), ('5', 'Facebook', 'https://www.facebook.com/', '3', 'USA');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from websites
+    -> ;
++----+----------+---------------------------+-------+---------+
+| id | name     | url                       | alexa | country |
++----+----------+---------------------------+-------+---------+
+|  1 | Google   | https://www.google.cm/    |     1 | USA     |
+|  2 | 淘宝     | https://www.taobao.com/   |    13 | CN      |
+|  3 | 菜鸟教程 | http://www.runoob.com     |  5892 |         |
+|  4 | 微博     | http://weibo.com/         |    20 | CN      |
+|  5 | Facebook | https://www.facebook.com/ |     3 | USA     |
++----+----------+---------------------------+-------+---------+
+5 rows in set (0.00 sec)
+
+25.JDBC的配置操作，六步：
+	第一步：注册驱动
+		Class.forName(JDBC_DRIVER);
+
+	第二步：打开/创建链接
+		con = DriverManager.getConnection(DB_URL,USER,PASS);
+		//con 是事先定义的Connection类型
+		//DB_URL的格式是：
+			jdbc:mysql://host:端口/数据库名
+
+	第三步：创建一个preparedStatement （SQL的执行方法）
+		stmt = con.createStatement();	
+		//stmt 是事先定义的Staement类型
+		*注意：Statement类由于缺少SQL语句的与操作，容易出现纰漏，尽量不用
+
+	第四步：执行SQL语句
+		-Statement接口提供了三种执行SQL语句的方法：executeQuery 、executeUpdate和execute
+		返回类型分别为：
+			1.ResultSet executeQuery(String sqlString)：执行查询数据库的SQL语句，返回一个结果集（ResultSet）对象。
+			2.int executeUpdate(String sqlString)：用于执行INSERT、UPDATE或 DELETE语句以及SQL DDL语句，如：CREATE TABLE和DROP TABLE等    
+			3.execute(sqlString):用于执行返回多个结果集、多个更新计数或二者组合的语句。    
+
+		-ResultSet rs = stmt.executeQuery(sql);			
+		//ResultSet定义的rs是结果集对象
+
+	第五步：遍历结果集
+		-while(rs.next()){    
+         int id = rs.getInt("id") ;    
+         SSystem.out.println("ID: " + id);    
+    	 }    
+
+	第六步：关闭链接
+		-一般顺序的是
+			1.关闭 ResultSet
+			2.关闭 preparedStatement 
+			3.关闭连接对象 Connection
+
+		-实际代码展示：
+		 rs.close();
+         stm.close();
+         con.close();  
+
+	注意事项：
+		*将使用语句放在try{}catch{}语句中用以处理错误
+		
+		*catch(SQLException e){
+            // 处理 JDBC 错误
+            e.printStackTrace();
+        }
+        
+        *catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }
+        
+        *当然也可以考虑抛出错误
+
+
+
+
+
+
