@@ -1,0 +1,302 @@
+1.数组的简单回顾
+    1.1一维数组的初始化
+        *静态初始化
+            int[] a = {1,2,3,45}
+            Object[] o = {new Object,new Object}
+        *动态初始化
+            int[] a1 = new int[4];
+            Object[] o1 = new Object[2];
+
+    1.2二维数组的初始化
+        *静态初始化
+        *动态初始化
+
+    1.3数组的遍历
+        *main方法的String可以用于在用户界面输入账号密码等
+
+    1.4常见的算法：
+        *排序算法：
+            -冒泡排序法
+                将左右两个数据比较，大的放右边，再将大的那个和它的右边比较
+                依次比较，最大的数据将在最右边
+                去掉这个最大数。再对剩下的数据进行冒泡排序，直到只剩两个比较结束
+                PS：有N个数据依次循环就要比较N-1次，所以N个数据总共需要比较 (N-1)! 次
+                for(i = arr.length - 1, a > 0 ,i--){
+                    for(j = 0,j < i,j++){
+                        if(arr[j] > arr[j+1]){
+                        int a =  arr[j];
+                        arr[j] = arr[j+1];
+                        arr[j+1] = a;
+                        }
+                    }
+                }
+
+            -选择排序法
+                每次在“参与比较的数据队”中找出最小值将其与最左边的数据交换位置
+                由于每次交换都具有意义，所以效率比冒泡高
+                for(int i = 0,i < arr.length,i++){  //i就是开始比较时最左边的元素下标
+                    int min = i;
+                    for(int j = i + 1,j < arr.length,j++){
+                        if(arr[j] < arr[min])
+                            min = j;
+                    }
+                    if(min != i){
+                         int a =  arr[i];
+                         arr[i] = arr[min];
+                         arr[min] = a;
+                    }
+                }
+
+        *查找算法：
+            -二分法查找
+                使用二分法查找的数据一定要是排序过的。
+                取中间值进行比较，比较后找数据所在区的中间进行比较，直到找到为止
+                *binarySearch(arr.no)
+                --------------------------------
+                int end = arr.length - 1;
+                int begin = 0;
+                int mid;
+                while(begin <= end){
+                    mid = ( begin + end) / 2;
+                    if(arr[mid] == dest){
+                        return mid;
+                    }else if(arr[mid] < dest))
+                            begin = mid + 1;
+                          else
+                            end = mid - 1;
+                }
+                return -1; //没找到
+                ---------------------------------------
+
+
+    1.4java中提供了常用的排序方法，例如：
+        * java.util.arrays
+            -arrays是一个工具类
+            -是静态方法直接调用
+            -其中sort()就是排序工具
+            -binarySearch()就是二分法查找工具
+
+2. String常用类，主要参考API文档
+    2.1JDK内置的一个类 : java.lang.String
+        *String表示字符串类型，属于引用数据类型
+        *在java中所有用""括起来的都是String类型
+        *java规定，String类型时不可变的
+        *String对象存储在“方法区”中的“字符串常量池”中
+        *String对象的创建也可以使用new String()的方法，只有就会在对内存总创建String对象，
+        但是数据依旧存储在字符串常量池中，堆内存对象中存储的时地址
+        *因此，如果两个String内容一样，则两个对象的地址相同
+            但是假如使用 new 方法创建String对象，虽然对象中指向的地址相同，但是指向对象的地址时不同的。
+        *String类已经重写了equals方法，因此可以使用equals方法进行String对象比较
+
+    2.2关于String[]数组中的构造方法
+        *第一个：String s = new String("");
+        *第二个：String s = " "; 最常见的
+        *第三个：String s = new String(char数组);
+        *第四个：String s = new String(char数组,起始下标,长度);
+        *第五个：String s = new String(byte数组);
+        *第六个：String s = new String(byte数组,起始下标,长度);
+
+    2.3 String类的常用方法
+        *1 charAt(),返回指定下标位置的char值
+            例如 char c= "123".charAt(1);
+                则 c 为 2
+        *2 int comparaTo(),对两个字符串比较，返回int数值，结果为0相等，负数为前小后大，正数前大后小
+            例如 int a = "abc".comparaTo("abc"); //0
+                int a = "abcd".comparaTo("abce"); //-1
+                int a = "abce".comparaTo("abcd"); //1
+
+        *3 boolean conrains(),判断前面那个字符串是否包含后面的字符串
+
+        *4 boolean endWith()，判断前面的字符串是否以后面的字符串结尾
+
+        *5 boolean equalsIgnoreCasw(),判断两个字符串是否相等，忽略大小写
+
+        *6 byte[] getBytes(),将字符串转换成byte数组
+
+        *7 int indexOf()，判断某个字符串在当前字符串第一次出现处
+
+        *8 boolean isEmpty(),判断字符串是否为空字符串，使用的方法是检测长度是否为0
+
+        *9 int length(),判断字符串长度，不同于数组，数组的是属性，字符串的是方法函数
+
+        *10 int lastIndexOf(),某个字符串在当前字符串中最后出现的位置
+
+        *11 String replace(CharSequence oldChar,CharSequence newChar)
+            其中CharSequence是String的父类接口，将旧的字符串部分替换成新的
+
+        *12 String[] aplit(String regex),拆隔字符串，以regex为分隔符，拆成若干储存放在数组中
+
+        *13 boolean startWith(), 判断字符串是否以某字符串开始
+
+        *14 String substring(int beginIndex),截取字符串，从开始标识处
+
+        *15 String substring(int beginIndex,int endIndex),截取字符串重载，从下标beginIndex到endIndex-1
+
+        *16 char[] toCharArray(),将字符串转换成字符数组
+
+        *17 String toLowerCase(), 转换为小写
+
+        *18 String toUpperCase(), 转换为大写
+
+        *19 String trim()，去除字符串前后的空白
+
+        *20 String valueOf(),String类中唯一一个静态方法，不用new对象，将非字符串转为字符串
+            String s = String.valueOf(45s);
+            如果内容是对象，默认调用对象的toString()方法
+            PS：当使用println()方法的时候就是调用了String.valueOf()方法，
+            因此，内容直接为对象的时候println方法会调用toString()
+
+3. StringBuffer
+    3.1当我们使用字符串拼接的时候，由于String的不可变性，每次拼接都会新建内容，极大的占用方法区内存
+
+    3.2使用stringBuffer类进行字符串的拼接操作
+        *创建一个初始化容量为16个byte[]数组。（字符串缓冲区）
+        *以后拼接字符串。一律调用append()方法，append是追加的意思。每次容量满了会自动扩容。
+        *输出使用stringbuffer.toString()方法
+
+    3.3优化stringBuffer的方法
+        *尽量给定初值容量，减少底层数组扩展时的拷贝操作
+        *关键在于这个容量是否合适
+
+4. StringBuilder
+    4.1是用方法和Buffer相同，但是Builder线程不安全的，Buffer是线程安全的
+
+5.java中为8种基本数据类型准备的8种包装类
+    5.1-当调用的方法需要传一个基本数据类型进去，但是方法的参数列表是对象
+        -这是需要将基本数据通过构造转换为对象，才能传进去
+        -这种包装方法有提供的对应8种包装类型
+
+    5.2 8种基本数据类型对应的包装类名：
+        基本数据类型              包装类型
+       -----------------------------------------
+        byte                    java.lang.Byte
+        short                   jave.lang.Short
+        int                     java.lang.Interger  //不一样
+        long                    java.lang.Long
+        floot                   java.lang.Floot
+        double                  java.lang.Double
+        boolean                 java.lang.Boolean
+        chra                    java.lang.Character //不一样
+
+    5.3 以java.lang.interger为例子
+        -8种包装类中的数字类，其父类都是Number类，这是一个抽象类
+        -实例：
+            //将基本数据转换为类，称为装箱
+            Integer i = new Integer(123);
+            //将类转换为基本数据类型，称为拆箱
+            float f= i.floatValue(); //123.0
+            int retValue = i.intValue(); //123
+
+    5.4由于在java9之后不再建议使用打包的构造方法，因此会出现横线
+
+    5.5可以通过访问包装类的常量来得到基本数据类型的最大最小值
+        -Interge.MAX_VALUE
+        -Interge.MIN_VALUE
+
+    5.6在jdk1.5之后可以自动装箱和自动拆箱
+        -Interge x = 100;
+        -int y = x;
+        -因此可以不去了解Number类的方法
+
+    5.7由于包装数据是类，因此无法直接用 == 进行比较，因为引用中存的是地址
+        重点：
+        *但是java为了开发效率，已将[-128~127]的包装对象提前建立好，存储在方法区的“整数型常量池”中
+        *因此在使用这个范围的包装类时不用新建new，可以直接引用
+            -Integer x = 127;
+             Integer y = 127;
+             System.out.println(x == y); //此处输出结果为true
+
+    5.8对于Integer类 如果输入不是数字就会出现数字格式化异常
+        -NumberFormatException
+
+        -回顾之前遇到过的经典异常：
+            空指针异常：  NullPointException
+            类型转换异常： ClassCastException
+            数组下标越界异常： ArrayIndexOutOfBoundException
+
+    5.9 satatic int parseInt(String s)
+        -该方法是静态方法，作用是将字符串转换为int类型数字
+        -同理double类有parsDouble,float类有parsFloat
+
+    5.10 关于int，integer，String类型之间的转换
+        -int --> integer
+            Integer x = 100; //自动装箱
+        -integer --> int
+            int y = x; //自动拆箱
+        -String --> int
+            int i1 = Integer.paresInt("123"); //100
+        -int --> String
+            String s1 = i1 + ""; //100字符串
+        -String --> integer
+            Integer i2 = Interger.valueOf("123");
+        -integer --> String
+            String s2 = String.valueOf(i2);
+
+6.java中对日期的处理
+    6.1 java.util.Date;
+        -直接获得系统当前日期，精确到毫秒
+        -Date类中的toString方法已重写
+
+    6.2由于Date类输出的数据不符合我们的常用习惯，因此要日期格式化
+        -在java.text包中有SimpleDataFormat专门负责日期格式化。
+        -初始化指定格式后，调用 .format() 方法，将Date类传入，返回指定规格的String字符串
+
+    6.3同样使用 SimpleDateFormate 类可以把字符串转换为Date类
+        -这里使用 .parse() 方法，需要事先初始化日期格式，因该安装字符串的格式来
+
+    6.4获取从1970年1月1日00.00.00.000到当前时间的毫秒数
+        -有一个成品的函数可以调用：
+        System.currentTimeMillis();
+        -该函数可以用来计时，在计时开始计一个毫秒数，结束记一个，计算差得到时长。
+
+        -回顾System的方法
+            -System.out.println()
+            -System.gc()            建议启动垃圾回收器
+            -System.currentTimeMillis();
+            -System.exit(0);        退出JVM
+
+    6.5对Date的有参构造，参数列表时一个毫秒数，时从1970年1月1日00.00.00.000开始计时的
+
+7.数字的格式化
+    7.1 数字格式化的方法类是DecimalFormat,等同时间的格式化使用规范
+        -#      任意数字
+        -,      千分位
+        -.      小数点
+        -0      不够时补0
+        例如：
+           DecimalForma s = new DecimalForma(###,###.000);
+           String s1 = s.format(1234.56789);    //s1 = 1,234.567
+
+8.大数据的使用，精度极高：BigDecimal 用于财务软件开发，double不够
+    -该类在java.math包中
+    -精度高的数据在求和的时候也要调用方法
+        v1.add(v2); //v1,v2是两个BigDecimal类对象数字
+    -同样的减乘除也有相应的方法
+
+9.随机数的产生
+    -使用的是Random类
+    -Random.nextInt(); 就是返回一个int类型的范围内的随机数
+    -Random.nextInt(（inr）边界数); 就是返回一个int类型的不超过边界（不包括边界）的随机数
+
+10.枚举类型 Enum
+    -枚举是一种引用数据类型
+    -对于结果超过两个但是可以一个个列出的可以采用枚举类型
+        *比如春夏秋冬，颜色，星期等
+    -枚举编译后生成class文件
+    -语法：
+        enum Result{
+            SUCCESS,FAIL
+        }
+    -这样在可以用Result定义方法，返回值只能是枚举类中定义的辨识
+
+11.异常
+    -当java程序执行过程中出现了不正常情况，这就是异常
+    -java语言会把相关异常打印到控制台，方便程序员修改代码
+    -那么java语言中异常是以什么形式存在的呢？
+        *异常在java语言中以类的形式存在，每一个异常类都可以创建对象
+
+
+
+
+
+
