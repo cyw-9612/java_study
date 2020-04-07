@@ -1,0 +1,229 @@
+
+1.java的异常处理机制
+    1.1异常在java中以类和对象的形式存在，异常的结构可以使用UML图来描述继承结构
+
+2.UML是什么
+    2.1UML是一种统一建模语言
+    2.2所有面向对象的程序编程语言，都有UML
+    2.3在UML图中可以描述类和类之间的关系，程序执行的流程，对象的状态等
+
+3.编译时异常和运行时异常
+    *编译时异常需要在编写程序的时候对这些异常预先进行处理，不然会报错
+    *运行时异常不需要在编写程序的时候进行处理
+    *两个异常都发生在运行阶段，因为只有程序运行阶段才可以new对象
+    *发生异常就是new一个异常对象
+
+    *编译时异常发生概率较高
+    *运行时异常发生概率较低
+
+    *编译时异常又称为受检异常或受控异常
+    *运行时异常又称为未受检异常或非受控异常
+
+4.java语句对异常的处理方式有两种：
+    4.1第一种方式：在方法声明的位置，使用throws关键字，抛给上一级
+        -上抛类似于推卸责任
+
+    4.2第二种方式：使用try...catch语句进行异常捕获
+        -捕捉则是把异常拦截，真正的进行处理
+        -catch可以写多个，建议每个异常精确定位，方便修改
+        -catch写多个的时候，从上向下依照从小到大的原则
+
+    4.3对异常的处理可以对父类异常进行判断，比如之间对Exception异常进行处理
+
+    4.4若对异常采用上抛，当发生异常时后续代码不再执行
+        -一个方法体发生异常，如果上报，则方法结束
+        -同理，在try...catch语句种，如果当发生异常则在try块中后面的语句不再执行
+
+    4.5 JDK8的一个新特性支持再catch的判断中使用 | 处理多个异常
+    try{
+    }catch(NullPointerException | FileNotFoundException | ArithmeticException e){
+        Syetem.out.println("空指针异常或文件不存在或数学异常");
+    }
+
+    4.6对于throws和try..catch的选择
+        -当需要调用者知道异常或者需要调用者处理异常的时候使用throws，否则建议使用try..catch
+        -具体情况具体分析
+
+5.异常对象的两个重要方法：
+    5.1获取异常的简单描述信息
+        String msg = exception.getMessage();
+
+    5.2打印异常追踪的堆栈信息
+        exception.printStackTrace();
+        -java打印异常追踪的堆栈信息的时候是使用后台异步线程的
+        -一般使用这个
+
+    5.3异常的处理机制可以避免系统由于异常而宕机
+
+6.对于try...catch语句中的finally语句
+    6.1在finally子句中的代码最后执行的，并且是一定会执行的，即使try语句块代码出现了异常
+        -finally子句必须与try一起出现，不能单独编写
+        -一般在finally中关闭流，这类使用后必须关闭的东西
+
+    6.2java语言中的规则：
+        -java方法体中的语句一定是自上而下运行的
+        -java方法体中的return语句执行了，方法体就结束了
+            对于以下语句，返回值为100,虽然finally在return前执行，但是return在i = 100下面，所以返回100
+            int i = 100;
+            try{
+                return i;
+            }finally{
+                i++;
+            }
+
+7.final finally finalize 之间的区别
+    -final是一个关键字，表示最终的，不变的的
+    -finally是和try联合使用的异常处理机制，finally的语句块一定会执行
+    -finalize()是Object()类的一个方法，作为方法名出现，由GC垃圾回收器负责调用
+
+8.java中的自定义异常类
+    -第一步：编写一个类继承Exception或者RuntimeException
+
+    -第二部：提供两个构造方法，一个无参的，一个带有String参数的
+
+    -例如：
+        public class MyException extends Exception{
+            public MyException(){
+
+            }
+            public MyException(String s){
+                super(s);
+            }
+        }
+
+    -抛出异常回顾：
+        子类方法重写后比父类不能抛出更多异常
+        *但是父类不抛子类可以抛出RuntimeException异常
+
+7.异常中的五个关键字
+    -异常捕捉
+        try
+        catch
+        finally
+
+        throws  在方法声明位置上使用，表示上报异常信息给调用者
+        throw   手动抛出异常
+
+8.集合的概念
+    8.1什么是集合，有什么用呢?
+        -数组就是一个集合，集合就是一个容器，可以容纳多个其他类型的数据
+
+    8.2集合不能直接存贮基本数据类型，另外集合也不能直接存储java对象
+        -集合中存储的都是java对象的内存地址
+        -集合中存储的都是引用
+
+    8.3在java中每个不同的集合，底层会对应不同的数据结构，往不同的集合中
+        存储元素，等于将数据存放到不同的数据结构当中，什么是数据结构呢？
+        数据存储的结构就是数据结构，不同的数据结构，数据存储的方式不同：
+            数组，二叉树，链表，哈希表。。。
+        在使用集合的时候，new的类不同，集合的数据结构不同
+        new ArrayList();
+        new LinkedList();
+        new TreeSet();
+        .....
+
+    8.4 集合在JDK的java,util包下
+        java,util.*
+        -所有的集合和接口都在这个包
+
+    8.5在java中集合分为两大类
+        -一类是单个方式存储元素
+            单个方式存储元素，这类集合的超级父接口：java.util.Collection;
+
+        -一类是以键值对的方式存储元素
+            以键值对的方式存储元素,这类集合的超级父接口：java.util.Map
+
+    8.6所有的集合都继承 Iterable（可迭代的） 接口，所以集合都是可迭代的们就是遍历
+        - Collection对象可以通过继承的 iterator() 方法得到迭代器iterator
+
+    8.9在Collection接口下的List 和 Set
+        -List集合存储元素的特点是：有序可重复的，元素有下标，放入取出顺序相同
+        -Set集合存储元素的特点是：无序不可重复，取出无顺序
+
+    8.10对List集合接口的常用实现类：ArrayList,LinkedList,Vector
+        - ArrayList 底层采用的是数组这种数据结构，ArrayList集合是非线程安全的
+        - LinkedList 底层采用的是双向链表这种数据结构
+        - Vector 底层采用的是数组这种数据结构，Vector集合是线程安全的，但现在有其他方法保障线程安全，Vector不常用了
+
+    8.11对Set接口的常用实现类：HashSet,TreeSet
+        - HashSet集合创建的时候底层new的是这种HashMap数据结构
+            放到HashSet的元素等于放到HashMap的Key部分
+        - TreeSet实现的是SorteSet接口（SortedSet继承的是Set），
+            TreeSet集合创建的时候底层new的是这种TreeMap数据结构
+            放到TreeSet的元素等于放到TreeSet的Key部分
+            TreeMap底层采用的是二叉树数据结构
+
+        - SortedSet接口继承了Set接口所以内容无序不可重复，但是 SortedSet 集合会自动排序
+
+    8.12有关Map集合的知识
+        -Map集合和Set集合没有关系
+        -Map集合以Key和value这种键值对的方式存储元素
+        -Key和value都是存储java对象的内存地址
+        -所有Map集合的Key特点：无序不可重复。
+
+        -同样SortedMap的特点和Map相同，但是SortedMap会自动排序
+
+    8.13 总之： Set集合就是一个Map集合的Key部分
+
+9. Collection 接口
+    9.1 Collection中能存储什么元素
+        -使用“泛型”之前，Collection中可以存储Object的所有子类
+        -使用“泛型”之后，Collection中只能存储某个集体的类型
+
+    9.2 Collection的常用方法
+        boolean add(Object e)   //添加元素
+        int size()              //获取集合中元素的个数
+        void clear()            //清空集合
+        boolean contains(Object o) //判断集合中是否包含元素o
+        void remove(Object o)   //删除集合中某一个元素
+        boolean isEmpty()       //判断集合是否为空
+        Object[] toArray()      //将集合转换为数组[不常用]
+
+    9.3 Iterator 迭代器的使用
+        -基础语法：
+            Iterator it = 集合名.iterator();
+
+            *迭代器中的方法：
+                boolean hasNext = it.hasNest();
+                -返回值为true表示还有可迭代元素
+                -返回值为false表示没有可迭代元素
+
+                Object obj = it.next();
+                -这个方法让迭代器前进一位
+                -并将指向元素返回
+
+10.集合中的Contains方法
+    -Contains方法是用来判断集合是否包含某个元素的方法
+    -contains在底层运行调用的是equals
+    -由于调用的是equals方法，所以根据类equals方法的重写方式，可以进行判断
+        *比如：
+            Collection c = new ArrayList();
+            String s1 = new String("abc");
+            c.add(s1);
+            String x = new String("abc");
+            c.contains(x);
+            **结果为true，因为String重写了equals方法，
+            **虽然x和s1的引用地址不同，但是String的equals方法比较的是内容
+    -因此放在集合中的元素，一定要重写equals方法
+
+11.集合中的remove方法
+    -和contains方法的原理类似，remove方法的底层调用的也是equals方法
+    -因此对于重写了equals的类，删除内容相同的类，即使类名不同也可以删除内容相同的元素。
+    -因此放在集合中的元素，一定要重写equals方法
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
