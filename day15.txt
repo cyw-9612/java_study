@@ -1,0 +1,318 @@
+
+1.在集合中进行元素的删除
+    1.1在使用迭代器的时候，如果集合的结果发生改变，迭代器需要重新获取。如果继续使用老的结构器会异常。
+
+    1.2无论是添加元素还是删除元素都是让集合的结构发生变化
+        -在迭代过程中不能使用 集合的remove() 方法
+        -如果一定要删除需要使用迭代器的remove() 方法，删除的是迭代器当前的元素
+
+    1.3集合状态改变需要更新迭代器状态
+
+2.List接口
+    2.1 -List接口是对Collection的泛化接口，
+
+        -List接口中的元素的特点是有序可重复，所有元素有下标
+
+    2.2List接口特有的方法：(E是泛型)
+        void add(int index,E elemt) //在列表指定位置插入元素，但是效率较低
+        E get(int index)            //得到指定下标的元素
+        int indexof(Object o)       //指定对象第一次出现的索引
+        int LastIndexOf(Object o)   //指定对象最后出现的索引
+        E remove(int index)         //删除指定下标位置的元素
+        E set(int index,E elemt)    //修改指定位置的元素
+
+    2.3由于List有下标，所以List可以使用for循环来进行遍历
+
+    2.4常用计算机英语：
+        增删改查：
+        -增：add,save,new
+        -删：delect,drop,remove
+        -改：update,set,modify
+        -查：find,get,query,select
+
+3.ArrayList 的知识
+    -ArrayList 底层先创建了一个空的数组，当第一个元素add初始化的容量是10，
+        满了后每次扩容增加原容量的0.5倍数
+
+    -ArrayList 底层是Object类型的数组
+
+    -在初始化ArrayList的时候尽量预估一个容量，减少扩容的操作，优化程序
+
+    -数组的优点是数据检索效率高
+
+    -数组的缺点是中间增删元素很麻烦
+
+    -向数组末尾增加元素的效率是很高的
+
+    -ArrayList集合是使用最多的元素：因为数组末尾效率添加元素不受影响，而且查找效率快
+
+    -ArrayList的构造函数：
+        *可以在构造函数中赋予初始化容量
+        *可以将Set集合放在构造函数参数中将Set转换为ArrayList集合
+            例如：
+                Collection c = new HashSet();
+                c.add("1");
+                c.add("2");
+                ArrayList MyList1 = new ArrayList(c);
+
+4.单项链表
+    4.1单项链表中的基础单元式节点，每个节点Node都存有两个属性：
+        -存储的数据
+        -指向下一个节点的内存地址
+
+    4.2链表的优缺点：
+        -优点是随机增删元素的效率高
+        -缺点是查询效率低，每次查找某个元素都需要从头遍历
+
+5.LinkedList 的知识
+    -LinkedList 基本单元是双向链表的节点
+        *每个节点包含上一个节点的地址，存储的数据，下一个节点的地址
+
+    -随机增删效率高
+
+6.Vector 的知识
+    6.1Vector底层也是数组
+        -初始化容量是10
+        -如何扩容
+            *根据源代码知道，每次扩容体积增加一倍，10-->20-->40
+            *ArrayList每次扩容1.5倍 ，10-->15
+
+    6.2 Vector的所有方法是线程同步的，所以是线程安全的
+        *但是效率较低，现在一般不使用了
+
+    6.3现在如何将一个ArrayList集合转换成线程安全的呢？
+        使用集合工具类：
+            java.util.Collections;
+
+            *注意：java.util.Collection; 是接口
+                    java.util.Collections; 是集合工具类
+
+            *使用方法：
+                ArrayList myList = new ArrayList();
+                Collection.synchronizedList(myList);
+                //这样myList就线程安全了
+
+7.泛型机制
+    7.1在JDK5之后添加的泛型机制
+        -例如使用泛型List<Animal>之后，表示List集合中只能存储Animal类型的数据
+        -由于Iterator也支持泛型，所以使用迭代器后可以指定返回的类型
+
+    7.2泛型实在编译阶段给编译器看的，在实际运行阶段不起作用
+
+    7.3泛型的好处：
+        *第一：集合中存储的元素统一
+        *第二：从集合中取出的元素是泛型指定的元素，不需要进行大量的向下转型
+
+    7.4泛型的缺点：
+        *泛型后集合中的元素缺乏多样新
+
+    7.5但是大多数开发中集合中的元素统一，所以泛型机制有实用价值
+
+8.自动类型推断机制
+    8.1在java8可以之后使用自动类型推动机制，称为装饰表达式：
+        *例如：
+            //ArrayList<String> s= new ArrayList<这里的类型可以不写，会自动判断>;
+            ArrayList<String> s= new ArrayList<>;
+
+    8.2泛型也可以自定义，来类名后加<自定义标识符>即可，在方法的返回类型就可以用自定义标识符修饰
+        -一般自定义标识符用E(element),T(type)表示
+        -自定义标识符可以随便写
+
+9.增强for循环： foreach
+    9.1语法结构：
+        -for(元素类型 变量名：数组或集合){
+            System.out.println(变量名)；
+         }
+        -实例：
+            int[] arr = {1,1,2,3}
+            for(int data : arr){
+            System.out.println(data)；
+            }
+
+    9.2 foreach的一个缺点就是没有下标，在需要使用下标的时候不建议使用foreach
+
+10.HashSet集合：
+    -无序不可重复
+    -存储和取出的顺序不一样
+    -HashSet实际存储的元素要HashMap的Key部分
+
+11.TreeSat集合：
+    -无序（没有下标）不可重复，但是存储的元素是自动按大小顺序排序
+    -也称为可排序集合
+
+12.Map接口的常用方法：
+    12.1 Map和Collection之间没有继承关系
+
+    12.2 Map集合以Key和value的方式存储数据：键值对
+        Key和value都是引用数据类型
+        Key和value都是存储对象的内存地址
+        Key起到主导地位，value是Key的一个附属品
+
+    12.3Map中的常用接口：
+        V put(K key,V value);   //向Map集合中添加键值对
+        V get(Object key);      //通过键值Key获得value
+        void clear();           //清空Map集合
+        boolean containsKey(Object Key);    //判断Map集合中是否包含某个Key值
+        boolean containsValue(Object value);//判断Map集合中是否包含某个value值
+        boolean isEmpty();      //判断Map集合元素个数是否为0
+        Set<k> kaySet();        //获得Map集合中的所有Key元素
+        V remove(Object key);   //根据Key值删除键值对
+        int size();             //获得Map集合中的键值对的个数
+        Collection<k> value();  //获取Map集合中所有的value，返回一个Collection
+        Set<Map.entry<k,y>> entrySet()  //将Map集合转为Set集合，Map.entry是Map中的一个静态内部类
+
+    12.4Map集合的遍历
+        -方法一：通过Key取得value
+            *通过kaySet()，获得所有的Key，得到一个Set集合
+            *遍历Key，通过Key得到value
+
+        -方法二：将Map集合转化为Set集合
+            *调用entrySet()得到一个Set集合
+            *遍历Set集合
+            *这种方法的效率比较高
+
+13.HashMap的数据结构 散列表
+    13.1HashMap的底层是哈希表，
+        -哈希表是一个数组和链表的结合
+        -哈希表将数组的查询快和链表的增删效率高的优点结合
+
+    13.2哈希表底层其实是一个一维数组：
+        Node<k,v>[] table;
+
+    13.3静态内部类HashMap.Node
+        static class Node<k,v>{
+            final int hash; //哈希值,(哈希值是key的hashCode()方法的执行结果，哈希值可以通过哈希算法可以取得数组下标)
+            final k key;    //存储在Map集合中的Key
+            V value;        //存储在Map集合中的value
+            Node<k,v> next; //写一个节点的内存地
+        }
+        -哈希表/散列表：一维数组，这个数组中每个元素是一个单向链表
+
+    13.4掌握两个Map的方法
+        -map.put(k,v)
+            *实现原理
+                -第一步：先将k，v封装到Node对象中
+
+                -第二步：底层会调用k的hashCode()方法计算哈希值
+                    在通过哈希函数/哈希算法转换为数组下标
+                    下标位置如果没有任何元素，则把Node添加到这个位置
+                    如果下标对应位置有Node，则将K值和该位置的链表进行equals对比
+                    如果所有equals返回都是false，则将节点加入该链表
+                    如果有一个equals返回true，则会该节点就会被新节点覆盖
+
+        -map.get(k);
+            *实现原理
+                -第一步：调用k的hashCode()方法得到哈希值，
+                    通过哈希函数/哈希算法转换为数组下标
+                    下标位置如果没有任何元素，返回null
+                    如果下标对应位置有单向链表，则用参数k依次进行equals比对
+                    如果有某个节点equals是true，则返回该节点的value
+                    如果都是false则返回null
+
+    13.5HashMap的Key部分的部分特点：
+        -无序，不可重复
+
+        -由于数据不知道会挂在那个链表中，所以输出时无序
+
+        -由于Key重复了，value会被新的覆盖，所以不可重复
+
+    13.6为了避免哈希表中散列分布不均匀的问题，需要重写hashCode()方法
+        -默认的hashCode()方法计算的是内存地址，所以需要重写hashCode()方法
+
+        -如果equals重写了，hashCode()方法也必须重写
+
+        -hashCode()方法和equals()方法使用IDEA自动生成，且必须同时生成
+
+    13.7哈希表的默认容量是16，默认加载因子是0.75，就是说装了容量0.75以后开始扩容
+        -官方建议要求哈希初始化容量是2的倍数，这样哈希表的性能更好。
+
+    13.8 hashMap的Key值和value可以为null，但是只能有一个
+        -但是Hashtable的Key值和value不可以为null
+        -Hashtable的默认容量是11，默认加载因子是0.75f
+        -Hashtable的扩容方式是 原容量 * 2 + 1
+
+14. Properties属性对象
+    -Properties是一个Map集合，继承Hashtable，Properties的key和value都是String类型的
+
+    -Propertise被称为属性类对象
+
+    -Propertise是线程安全的
+
+    -掌握Propertise的两个方法：
+        *存
+            -setProperty(String key ,String value);
+
+        *取,通过key获取value
+            -String s = getProperty(String key)；
+
+15. TreeSet集合
+    15.1 TreeSet底层是一个TreeMap集合的Key部分
+        -TreeSet底层是一个二叉树
+        -TreeSet虽然无序不可重复，但是里面的数据会大小排序
+
+    15.2 对于自定义类使用TreeMap时，如果不定义排序规则会出现异常
+        -这个异常出现的原因是因为自定义类没有实现Comparable接口
+
+        -实现Comparable方法：
+            例如：
+                class User implents Comparable<User>{
+                    int age;
+                    public User(int age){
+                        this.age = age;
+                    }
+                    //Comparable接口方法的实现
+                    //k.comparaTo(t.key)
+                    //结果就是负，0，正数
+                    public int comparaTo(User u){
+                        return this.age - u.age;
+                    }
+                }
+
+    15.3 TreeSet集合排序的另一种方式：使用比较器
+        -这个方法需要自建一个比较器方法，实现comparator接口
+        -在自定义类创建的时候，将比较强通过构造函数传入
+
+        -技巧：比较器也可以使用匿名内部类
+            *在new类名后加{方法实现语句}
+
+    15.4Comparable接口和Comparator比较器的总结
+        -第一种：放在集合中的元素实现java.lang.Comparable接口
+        -第二种：在构造TreeMap或者TreeMap的时候给他传一个比较强对象
+        -当比较规则不易该表或只有一个的时候，建议采用Comparable接口
+        -当比较规则异变或有多个的时候，建议使用Comparator比较器
+
+16.平衡二叉树
+    16.1自平衡二叉树，遵循左小右大原则存放
+
+    16.2遍历二叉树的时候有三个方法：
+          前序遍历：根左右
+          中序遍历：左根右
+          后序遍历：左右根
+
+          *注意：前中后说的是根的位置
+
+    16.3TreeSet集合/TreeMap集合采用的是：中序遍历方式
+        Iterator迭代器采用的是中序遍历方法。
+
+17.Collection集合工具类
+    -Collection.synchronizedList(myList);
+        将集合转为线程安全的
+
+    -Collection.sort(myList);
+         对集合进行排序，要求内容可排序（继承Comparable接口，或调用Comparator比较器）
+
+    -对于Set集合，可以使用ArrayList() 方法将Set转为List集合在调用sort()排序
+
+
+
+
+
+
+
+
+
+
+
+
+
+
