@@ -1,0 +1,163 @@
+1.集合的回顾：
+    -每个集合对象的创建（new）
+    -向集合中添加元素
+    -从集合中取出某个元素
+    -遍历集合
+
+    *ArrayList
+    *LinkedList
+    *HashSet    //Set集合的元素无序不可重复，
+                注意：加在HashSet中的自定义类需要同时重写HashCode和equals方法
+    *TreeSet
+    *HashMap
+    *Propertise
+    *TreeMap
+
+2.IO流
+    2.1什么是IO流
+        -文件的输入和输出 Input Output，通过IO可以完成对硬盘文件的读和写
+
+    2.2 IO流的分类
+        -一种方式以流的方向分类
+            往内存中去，叫做输入Input,读
+            从内存中出来，叫做输出Output，写
+
+        -另一种是按照读取数据的方式进行分类
+            *有的流是按照字节流的方式读取数据，一次读取1个字节byte，等同一次读取8个二进制位，
+             这种方法是万能的，可以读取文本，图片，声音等
+
+            *有的流是按照字符的方式读取数据，一次读取一个字符，这样只能读取文本文件
+             这是只针对文本文件的读取方式
+
+    2.3  综诉：流的分类
+        输入流，输出流
+        字节流，字符流
+
+3.java中的IO流已经写好了，直接使用就好，我们需要了解java.io中流的方式和用处
+    -java中所有的流都在java.io.*下
+
+4.java的IO流的四大家族
+    java.io.InputStream     字节输入流
+    java.io.OutputStream    字节输出流
+
+    java.io.Reader      字符输入流
+    java.io.Writer      字符输出流
+
+    -以Stream结尾的是字节流
+    -以er结尾的是字符流
+
+    *以上四种都是抽象类（abstract class）
+
+    -所有的流都实现了：
+        java.io.Closeable接口，所以所有流都是可关闭的。
+        要养成使用完流就关闭的习惯，节约有资源。
+
+    -所有的输出流都实现了：
+        java.io.Flushable接口，都是可以刷新的，都有flush()方法
+        要养成使用完输出接口后flush()的习惯
+        刷新，可以将通道/管道中的剩余位输出的数据强行输出完成（清空管道）
+        注意：不使用flush()，可能导致数据丢失
+
+5.java.io中需要掌握的16个流：
+    文件专属：
+        java.io.FileInputStream
+        java.io.FileOutputStream
+        java.io.FileReader
+        java.io.FileWriter
+
+    转换流：(将字节流转位字符流)
+        java.io.InputStreamReader
+        java.io.OutputStreamWriter
+
+    缓冲流专属：
+        java.io.BufferedRead
+        java.io.BufferedWriter
+        java.io.BufferedInputStream
+        java.io.BufferedOutputStream
+
+    数据流专属：
+        java.io.DataInputStream
+        java.io.DataOutputStream
+
+    标准输出流：
+        java.io.PrintWriter
+        java.io.PrintStream
+
+    对象专属流：
+        java.io.ObjectInputStream
+        java.io.ObjectOutputStream
+
+6.学习 java.io.FileInputStream
+    -简单的read()方法一次只能读取一个字节，硬盘交互太频繁，不建议使用
+
+    -int read(byte[] b)
+        *一次读取最少 b.length 个字节，减少交互，提高效率。
+        *返回值是读取到的字节数，数据存储在byte数组中
+        *实例：
+         byte[] bytes = new byte[4];
+         int readCount = 0;
+         while((readCount = fis.read(bytes)) != -1){
+              System.out.print(new String(bytes,0,readCount));
+         }
+
+    -IDEA默认的当前路径是：工程Project所在的根
+
+    -int available()方法返回的是剩余可以读取的字节数
+        *这样在开始available()获得文件总字节数
+          初始化byte数组的时候就可以预备大小，避免循环
+          不使用大文件
+
+    -void skip(int n); 跳过N个字节不读取
+
+7.学习 java.io.FileOutputStream
+    -文件字节输出流，负责写
+        由内存到硬盘
+
+    -实例：
+        //这种方式会将源文件清空在从新写入
+        //如果文件不存在会新建
+        fos = new FileOutputStream("OutputTest");
+        //以追加的方式在文件末尾写入
+        fos = new FileOutputStream("OutputTest.txt",true);
+
+    -String s = "我一定会学会java的";
+     byte[] bytes1 = s.getBytes();   //将字符串转换位数组
+     fos.write(bytes1);
+
+    -fos.write(bytes1,1,2); //部分写入 ，从第1位开始，写入2个字节
+
+8.文件的拷贝原理
+    -将文件读到内存，在输出到目标地址
+
+    -使用FileInputStream和FileOutputStream 合作复制
+
+9.FileReader：
+    -文件字符输入流
+
+    -针对的是普通文本文件
+
+    -字符流的读取的是字符，所以这里用char[]数组存储
+
+    -使用方法类似
+
+10.FileWriter:
+    -文件字符输出流
+
+    -针对的是普通文本文件
+
+    -在构造的时候，如果在地址后添加true，就是在文件末尾添加内容，反之则覆盖原有内容
+
+    -方法的使用类似
+        *FileWriter的.write() 可以直接传char[]
+        *FileWriter的.write() 可以直接传String
+
+11.同样使用FileReader和FileWriter可以拷贝文本文件
+
+
+
+
+
+
+
+
+

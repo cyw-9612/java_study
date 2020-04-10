@@ -1,0 +1,322 @@
+
+1.缓冲流转述：
+    java.io.BufferedRead
+    java.io.BufferedWriter
+    java.io.BufferedInputStream
+    java.io.BufferedOutputStream
+
+    -使用这个流不用自定义数组，自带缓存
+
+    -BufferedRead在使用的时候需要调用FileReader，里面的流叫做节点流，外面的流叫做包装流
+
+    -对于包装流来说，只用关闭最外的包装流，节点流会自动关闭
+
+    -buffer带读一行的方法，但是不带换行符，返回字符串
+      String fisetLine = br.readLine();
+
+2.转换流：buffer的节点流使用的是字符流
+    -当使用的是字节流的时候，可以只用转换流将字节流转换为字符流
+
+    -转换流的构造函数参数可以是一个字节流
+
+3.数据转换流：
+    -java.io.DataInputStream
+     java.io.DataOutputStream
+     会把数据的类型一起传递
+
+    -其中的写入数据类型的规则
+       DataOutputStream创建的文件只能DataOutputStream读取
+       并且数据类型要相同
+
+    - .writeByte();
+      .readByte();
+      .......
+
+4.标准输出流：标准字节输出流
+    -会默认输出到控制台
+
+    -标准输出流不需要关闭
+
+    -语法形式：
+        PrintStream ps = System.out;
+        ps.printlb("123");
+
+    -System.setOut(new printStream(new FileOutputStream("Output01.txt")));
+        *这样更改了输出的方向，由输出到控制台变成输出到文本文件
+        *此方法可以用来写日志
+
+5.File类的理解
+    -File类和四大家族无关系，所以不能读写
+
+    -File对象代表什么：
+        *C:\Drivers
+        *C:\Drivers\Lan\Realtsk\Readme.txt
+        *这些都是File对象，可以目录也可以是文件
+
+    -File类的常用方法：
+        boolean exists();   //判断File是否存在
+        void creatNewFile(String FileName); //创建文件
+        void mkdir(String dir); //创建目录
+        void mkdirs(String dirs); //以多重复的目录方式创建目录
+        String getParent(); //获得父路径
+        File getParentFile();   //获得父File
+        String getAbsolutePath();   //获得绝对路径
+        String gatName();
+        boolean isDirectory();  //判断是不是路径
+        boolean isFile();       //判断使不得文件
+        long lastModified();    //获得最后修改时间，得到的是1970到现在的毫秒数，传到Date(long);得到日期
+        long length();  //得到文件大小
+        File[] liseFile();  //获得当前目录下的子文件
+
+6.对象专属流：
+    java.io.ObjectInputStream
+    java.io.ObjectOutputStream
+
+    -了解序列化 Serialize
+        java对象存储到文件中，将java对象保存的过程
+
+    -反序列化(DeSerialize)
+        就是将硬盘中的文件转换,恢复为java对象
+
+    -需要序列化和反序列化的类对象必须实现Seralizable接口
+        *Seralizable接口只是一个标志接口，内部无东西
+        *只是起到标志作用
+
+    -集合也支持序列化
+        *集合中的类也要实现Seralizable接口
+
+    - transient关键字：游离的
+        *表示不参加序列化
+
+    -java如何区分类的
+        *第一：先通过类名比较
+        *第二：如果类名一样，通过序列化版本号区分
+
+    -但是采用了自动生成的序列化版本号，就无法对类进行修改
+        *所以对实现Seralizable接口的类，需要确定一个版本号
+         private static final long serialVersionUID = 1L ;
+
+         *这样以后修改了类，JVM也会识别是一个类
+
+7.采用IO + Properties的联合应用，可以将经常修改的数据单独成文件
+    -一般这种文件都成为配置文件
+        key1=value1
+        key2=value2
+        *我们把这种配置文件称为属性配置文件
+
+    -java中有规范建议属性配置文件一般以.properties结尾，
+      .properties结尾的属性配置文件用properties集合存储
+      在配置文件中#是注释##
+
+8.多线程
+    8.1什么是进程，什么是线程？
+        -进程是一个应用程序
+        -线程是一个进程中的执行场景，执行单元
+        -一个进程可以启动多个线程
+
+    8.2java程序的启动就是一个进程JVM 会有至少两个线程：一个main，一个垃圾回收器
+
+    8.3进程之间的内存是独立不共享的，
+        -但是线程之间的堆内存和方法区是共享的，但是栈内存是独立的
+        -一个线程一个栈内存
+        -java之所以有多线程机制，是为了提高运行效率
+
+    8.4java中实现线程的两个方法
+        -第一种：编写类继承java.lang.Thread ，重写run()方法
+            *如何创建线程对象呢？
+                直接new一个对象
+            *如何启动线程呢？
+                调用对象的start方法
+                start方法的作用是在jvm中开辟一个新的栈空间，开好start方法就结束了
+                start结束后自动调用run方法，run方法在新线程栈内存的底部，和main平级
+                如果在main中直接调用run方法，就不会多线程运行
+
+        -第二种：创建一个类实现java.lang.Runnable接口
+            *定义一个可运行类
+            public class MyRunnable implements Runnable{
+                public void run(){
+                }
+            }
+            *创建一个线程对象
+             Tread t = new Tread(new MyRunnable);
+             t.start();
+
+        -第二章方法实现接口的方式更灵活。
+
+9.线程的生命周期：
+    9.1当线程通过调用start方法进入就绪状态也成为可运行状态，
+        表示当前线程具有抢夺时间片的权利（CPU时间片就是执行权）
+        当一个线程抢到run方法，run方法执行就标志着线程进入运行状态
+
+    9.2当run方法开始进入执行阶段。
+        当之前占有的CPU时间片用完了之后，会重写回到就绪状态继续抢夺CPU时间片
+        当再次抢到CPU时间片，会重新进入run方法接着上一次代码继续执行
+
+    9.3线程一直在就绪状态和运行状态之间跳变
+
+    9.4当一个线程遇到阻塞事件，例如接受键盘输入或sleep方法等
+        此时线程进入阻塞状态，阻塞状态的线程会放弃之前抢占的CPU时间片
+
+    9.5线程的生命周期
+        新建状态
+        就绪状态
+        运行状态
+        阻塞状态
+        死亡状态
+
+10.获得线程的名字
+    -void setName(String str);
+        修改线程的名字
+
+    -String getName();
+        获得线程的名字
+
+    -当线程没有设置名字则会由默认的名字
+        thread-0
+        thread-1
+
+11.获取当前线程
+    -Thread cuuentThread();
+        *加入在main方法种调用返回的就是main方法的主线程
+
+    -static void sleep(long millis)
+        *静态方法：Thread.sleep(1000)
+        *参数是毫秒
+        *作用是让当前线程进入休眠，进入“阻塞状态”，放弃CPU时间片，让给其他线程
+
+    -如何唤醒一个睡眠中的线程
+        *run方法不能抛出异常，因为继承的父类没有抛出异常
+        * void interrupt();
+            -这里使用的是java的异常处理机制
+
+        *t.stop();会直接杀死线程，为保存到的数据将会丢失，不建议使用。
+
+12.如何合理的结束一个线程
+    -在类中添加标志
+        例如定义一个布尔类型runx ，run方法执行的时候会进行判断，如果runx位true就据徐运行，反之则结束
+        这样在执行中将runx修改就可以用return结束线程。
+
+13.线程的调度
+    13.1常见的线程调度模型：
+        抢占式调度模式
+            -java就是这种
+
+        均分式调度模型
+            -平均分配CPU时间片
+
+    13.1 java中提供了那些方法时线程调度有关的呢？
+        -实例方法：
+            void setPriority(int newPriority)   //设置线程优先级
+            int getPriority()
+            默认优先级：5
+            最高优先级：10
+            最低优先级：1
+
+        -静态方法：暂停当前方法，让其返回就绪状态
+            static void yield()  让位方法
+            *注意：返回就绪状态的线程依旧可能再次抢占CPU时间片
+
+        -实例方法：合并线程
+            void join()
+            *执行新的线程，当前线程受阻
+
+14.关于多线程并发的情况下，数据的安全问题
+    14.1 为什么这个很重要
+        以后的开发中，程序一般运行在服务器上，关于线程的创建和启动已经完成
+        这就需要关注数据在多线程并发的条件下是否安全
+
+    14.2 什么条件下会存在安全问题？
+        一：多线程并发
+        二：有共享数据
+        三：共享数据有修改的行为
+
+    14.3 如何解决线程安全问题
+        让线程排队进行
+        这种机制称为：线程同步机制
+        专业术语称为：线程同步， 其实就是线程排队执行，不并发
+
+    14.4 涉及到线程同步问题就设计两个专业术语：
+        *异步编程模型：
+            -异步就是并发
+
+        *同步编程模型：
+            -同步就是排队
+            -线程同步机制的语法：
+                     synchronized(){
+                         线程同步代码块
+                     }
+                     ()中的内容很关键，这个数据必须是多线程共享元素
+                     假设要t1,t2,t3同步而t4不同步
+                     就需要填入一个t1,t2,t3共享的而t4不共享的数据
+            -也被称为线程锁，表示在线程并发的时候，当执行到该关键字的时候会由事先占有线程锁的线程执行同步代码块，
+             这时其他线程运行到这一关键字的时候为了占有线程锁需要等待当前同步代码块执行完成，释放线程锁，再执行相应内容
+
+            -synchronized也可以用来修饰实例方法上，默认共享数据是this，但是这样会扩大同步的方法体
+                *优点是代码写的节减了，在共享对象是this且需要同步的是全部方法体可以使用这个方法
+
+15.在java中存在三大变量
+    -实例变量：在堆中
+    -静态变量：在方法区中
+    -局部变量：在栈中
+
+    -以上局部变量存在栈中永远不坑线程共享，所以没有前程安全问题
+
+16.同步代码块的体积越大，程序运行效率越低
+
+17.线程的其他内容
+    17.1 守护线程
+        -java语言中线程分为两大类
+            一类是：用户线程
+            一类是：守护线程（后台线程）
+            其中具有代表性的就是垃圾回收器
+
+        -守护线程的特点：
+            一般守护线程是一个死循环，所有的用户线程结束，守护线程自动结束
+
+        -注意：主线程main方法是一个用户线程
+
+        -守护线程用在什么地方呢？
+            每天00：00时，系统自动备份
+            这可以设置为一个定时器，在后台循环
+
+        -设置守护线程的方法：
+            //在start()之前执行该语句
+            void setDeamon(boolean t); //当t为true的时候就设置为了守护线程
+
+    17.2 定时器
+        -定时器的作用：
+            间隔特定时间进行特定程序
+
+        -之前使用的sleep()方法就是一个简单的定时器
+
+        -在java类库中已经准备了一个定时器：java.lang.Timer 不过现在开发用的较少
+            因为很多高级框架都支持定时任务
+
+        -在实际开发中，目前使用较多的是Spring框架提供的SpringTask框架
+            该框架只要进行简单的配置，就能定时器的使用
+
+    17.3 实现线程的第三种方式： FutureTask方法，实现Callable接口（JDK8之后的新方式）
+        -这个方法可以后的线程的返回值
+            原来的run方法是void的，没有返回值
+
+        -语法结构：
+            FutureTask task = new FutureTask(new callable(){
+                public Object call(){
+                code.....
+                return obj;
+                }
+            });
+            Thread t = new Thread(task);
+            t.start();
+            Object obj = task.get();
+
+        -该方法的优点是：
+            可以获得线程的执行结果
+        -该方法的缺点是：
+            效率低，在获得线程的get结构的时候，当前线程会阻塞。
+
+    17.4 关于Object类中的wait和notify方法。（生产者和消费者）
+
+
+
+
