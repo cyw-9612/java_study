@@ -1,0 +1,85 @@
+
+1.线程的其他内容
+   1.1 守护线程
+   1.2 定时器
+   1.3 实现线程的第三种方式： FutureTask方法，实现Callable接口
+   1.4 关于Object类中的wait和notify方法。（生产者和消费者）
+        -wait和notify方法都是对象原有的方法，继承自Object类，因此不是通过线程调用的
+        -wait语法：
+            Object o =new Object();
+            o.wait();
+            让在对象o上活动的所有线程进入无限期等待。直到被唤醒（notify）为止。
+        -notify语法：
+            o.notify();
+            这样可以当o对象上等待的线程开始工作（被唤醒）
+            此外还有notifyAll(),唤醒o对象上等待的所有线程
+
+2. 生产者和消费者模式
+    -这是为了解决某个特定的需求
+        *假设一个线程负责生产，一个线程负责销费，共有一个仓库。
+        需要保障生产消费均衡，就是生产满了就停止生产，只销费
+        销费空了就停止消费，只生产
+
+    -o.wait会让正在对象上活动的当前线程进入等待状态，释放锁
+     o.notify则只会通知，不会释放锁
+
+3.反射机制
+    3.1 反射机制有什么用呢？
+        通过java语言中的反射机制，可以操作字节码文件
+
+    3.2反射机制的相关类在：
+        java.lang.reflaect.*;
+
+    3.3反射机制相关的重要类有哪些：
+        java.lang.Class     //代表字节码文件，代表整个类
+
+        java.lang.reflect.Method    //代表字节码中的方法字节码，代表类中的方法
+
+        java.lang.reflect.Constructor    //代表字节码中的构造字节码，代表类中的构造方法
+
+        java.lang.reflect.Field    //代表字节码中的属性字节码，代表类中的成员变量
+
+    3.4获得Class的三种方式：
+        -Class.forName();
+            *这是一个静态方式
+            *方法的参数是一个字符串
+            *字符串需要的是一个完整类名
+            *完整类名必须包含包名，java.lang包也不能少
+
+        -java任何对象都有也该方法：
+            Class getClass();
+            *两个方法对同一个类的获取是相同的，这是因为每个类的字节码JVM只加载一份
+
+        -java中所有类型，包括基本数据类型都有.class属性
+            class s = String.Class;
+
+    3.5 通过反射机制实例化对象
+        -获得Class类后，可以调用newInstance()方法，自动调用无参构造方法
+        -解释书写配置文件，通过IO-Propetties读取类名，就可在灵活的不修改代码的情况下创建不同的类
+        -学习了反射机制，有利于了解框架的底层
+        -Class.forName();在执行的时候会由虚拟机类加载，所以想执行类中的静态代码块可以使用这个方法
+
+4.了解类的路径
+    -由于IDEA的默认路径是project的，所以使用相对路径的文件一直性差
+    -String path = Thread.currentThread().
+       getContextClassLoader().getResource(文件名).getPath();
+        *Thread.currentThread() 当前线程对象
+        *getContextClassLoader() 当前线程对象的方法，可以获取当前线程的类加载器。
+        *getResource() 【获取资源】类加载器的方法，当前线程类加载器默认从类的根路径下加载资源
+        *这样可以获得文件的绝对路径
+        *要求：文件必须在类路径下（SRC文件夹中）
+        *名称以类的根目录（src）开始书写
+
+    -FileInputStream reador = Thread.currentThread().
+        getContextClassLoader().getResourceAsStream(文件名);
+        *也可以直接以流的方式获取
+
+5.资源绑定器
+    -java.util包中提供了一个资源绑定器，便于获取属性配置文件
+    使用这个方式的时候，属性配置文件xxx.properties文件必须放在类路径下
+
+    -语法:
+        *资源绑定器只能绑定xxx.properties文件，并且文件必须放在类路径下，且扩展名必须是properties
+        *在写路径的时候，路径后的扩展名不能写
+        ResourceBundle bundle = ResourceBundle.getBundle("配置文件名");
+        String bundle.getString(key k);
